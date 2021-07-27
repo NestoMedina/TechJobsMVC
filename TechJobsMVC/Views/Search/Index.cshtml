@@ -6,13 +6,35 @@
         <h2>Search by:</h2>
 
         <p>
-            @foreach (var column in ViewBag.columns)
+            @if (ViewBag.radio != null)
             {
-                <span>
-                    <input type="radio" name="searchType" id="@column.Key" value="@column.Key" checked="@column.Key == 'all'" />
-                    <label for="@column.Key">@column.Value</label>
-                </span>
+                @foreach (var column in ViewBag.columns)
+                {
+                    <span>
+                        @if (ViewBag.radio == column.Key)
+                        {
+                            <input type="radio" name="searchType" id="@column.Key" value="@column.Key" checked />
+                            <label for="@column.Key">@column.Value</label>
+                        }
+                        else if (ViewBag.radio != column.Key)
+                        {
+                            <input type="radio" name="searchType" id="@column.Key" value="@column.Key" />
+                            <label for="@column.Key">@column.Value</label>
+                        }
+                    </span>
+                }
             }
+            else
+            {
+                @foreach (var column in ViewBag.columns)
+                {
+                    <span>
+                        <input type="radio" name="searchType" id="@column.Key" value="@column.Key" />
+                        <label for="@column.Key">@column.Value</label>
+                    </span>
+                }
+            }
+
 
         </p>
 
@@ -26,8 +48,37 @@
 
     <hr />
 
-    @{
-        //TODO #4: Loop over the search results to display all job fields.
-    }
+        @if (ViewBag.jobs != null)
+        {
+            <table style="width:100%">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Employer</th>
+                    <th>Location</th>
+                    <th>Position Type</th>
+                    <th>Core Competency</th>
+                </tr>
+
+                @foreach (Job item in ViewBag.jobs)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Employer</td>
+                        <td>@item.Location</td>
+                        <td>@item.PositionType</td>
+                        <td>@item.CoreCompetency</td>
+                    </tr>
+                }
+            </table>
+
+                 
+        }
+     
+   
+
+
+
 
 </div>

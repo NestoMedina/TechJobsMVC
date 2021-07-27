@@ -2,9 +2,40 @@
 
     <h1>@ViewBag.title</h1>
 
-    @{
-        //TODO #1: Use a loop to display job results in a table.
-    }
+    <table style="width:100%">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Employer</th>
+            <th>Location</th>
+            <th>Position Type</th>
+            <th>Core Competency</th>
+        </tr>
+
+        @foreach (Job item in ViewBag.jobs)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+
+                @foreach(KeyValuePair<string, List<JobField>> thing in ViewBag.tableChoices)
+                {
+                    @foreach(JobField name in thing.Value)
+                    {
+                        if(item.Employer == name)
+                        {
+                            <td><a asp-controller="List" asp-action="Jobs" asp-route-column="@item.Employer">@item.Employer</a></td>
+                        }
+                    }
+                }
+
+            </tr>
+        }
+
+
+
+
+    </table>
 
 
 </div>
