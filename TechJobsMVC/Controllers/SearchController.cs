@@ -14,11 +14,14 @@ namespace TechJobsMVC.Controllers
     {
         public static List<Job> jobs;
         public static string radio;
+        public static string Term;
         // GET: /<controller>/
         public IActionResult Index()
         {
             ViewBag.jobs = jobs;
             ViewBag.radio = radio;
+            ViewBag.Term = Term;
+            ViewBag.tableChoices = ListController.TableChoices;
             ViewBag.columns = ListController.ColumnChoices;
             return View();
         }
@@ -35,6 +38,8 @@ namespace TechJobsMVC.Controllers
                 jobs = JobData.FindByColumnAndValue(searchType, searchTerm);
             }
             radio = searchType;
+            Term = searchTerm;
+            ViewBag.tableChoices = ListController.TableChoices;
             ViewBag.columns = ListController.ColumnChoices;
             return Redirect("/Search/index");
         }

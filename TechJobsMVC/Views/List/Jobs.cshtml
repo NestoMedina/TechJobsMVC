@@ -14,22 +14,34 @@
 
         @foreach (Job item in ViewBag.jobs)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
+    <tr>
+        <td>@item.Id</td>
+        <td>@item.Name</td>
 
-                @foreach(KeyValuePair<string, List<JobField>> thing in ViewBag.tableChoices)
+            @foreach (KeyValuePair<string, List<JobField>> thing in ViewBag.tableChoices)
+            {
+                @foreach (JobField name in thing.Value)
                 {
-                    @foreach(JobField name in thing.Value)
+                    if (item.Employer == name)
                     {
-                        if(item.Employer == name)
-                        {
-                            <td><a asp-controller="List" asp-action="Jobs" asp-route-column="@item.Employer">@item.Employer</a></td>
-                        }
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="employer" asp-route-value="@item.Employer">@item.Employer</a></td>
+                    }
+                    else if (item.Location == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="location" asp-route-value="@item.Location">@item.Location</a></td>
+                    }
+                    else if (item.PositionType == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="positionType" asp-route-value="@item.PositionType">@item.PositionType</a></td>
+                    }
+                    else if (item.CoreCompetency == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="coreCompetency" asp-route-value="@item.CoreCompetency">@item.CoreCompetency</a></td>
                     }
                 }
+            }
 
-            </tr>
+    </tr>
         }
 
 

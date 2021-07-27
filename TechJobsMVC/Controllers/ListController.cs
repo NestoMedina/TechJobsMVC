@@ -12,7 +12,7 @@ namespace TechJobsMVC.Controllers
 {
     public class ListController : Controller
     {
-        internal static Dictionary<string, string> ColumnChoices = new Dictionary<string, string>()
+        public static Dictionary<string, string> ColumnChoices = new Dictionary<string, string>()
         {
             {"all", "All"},
             {"employer", "Employer"},
@@ -20,7 +20,11 @@ namespace TechJobsMVC.Controllers
             {"positionType", "Position Type"},
             {"coreCompetency", "Skill"}
         };
-        internal static Dictionary<string, List<JobField>> TableChoices = new Dictionary<string, List<JobField>>()
+
+        
+        //Have a dict that list all employers, location, etc. I need to create a conditional
+        // that will iterate over the list and check for what the user clicked on.
+        public static Dictionary<string, List<JobField>> TableChoices = new Dictionary<string, List<JobField>>()
         {
             {"employer", JobData.GetAllEmployers()},
             {"location", JobData.GetAllLocations()},
@@ -59,6 +63,8 @@ namespace TechJobsMVC.Controllers
             ViewBag.columns = ColumnChoices;
             return View();
         }
+
+
 
 
     }

@@ -13,7 +13,7 @@
                     <span>
                         @if (ViewBag.radio == column.Key)
                         {
-                            <input type="radio" name="searchType" id="@column.Key" value="@column.Key" checked />
+                            <input type="radio" name="column" id="@column.Key" value="@column.Key" checked />
                             <label for="@column.Key">@column.Value</label>
                         }
                         else if (ViewBag.radio != column.Key)
@@ -34,13 +34,19 @@
                     </span>
                 }
             }
-
-
         </p>
 
         <p>
-            <label for="searchTerm">Keyword:</label>
-            <input type="text" name="searchTerm" id="searchTerm" />
+            @if (ViewBag.Term != null)
+            {
+                <label for="searchTerm">Keyword:</label>
+                <input type="text" name="searchTerm" id="searchTerm" value="@ViewBag.Term"/>
+            }
+            else
+            {
+                <label for="searchTerm">Keyword:</label>
+                <input type="text" name="searchTerm" id="searchTerm" />
+            }
         </p>
 
         <input type="submit" value="Search" />
@@ -50,28 +56,47 @@
 
         @if (ViewBag.jobs != null)
         {
-            <table style="width:100%">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Employer</th>
-                    <th>Location</th>
-                    <th>Position Type</th>
-                    <th>Core Competency</th>
-                </tr>
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Employer</th>
+        <th>Location</th>
+        <th>Position Type</th>
+        <th>Core Competency</th>
+    </tr>
 
-                @foreach (Job item in ViewBag.jobs)
+    @foreach (Job item in ViewBag.jobs)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+
+            @foreach (KeyValuePair<string, List<JobField>> thing in ViewBag.tableChoices)
+            {
+                @foreach (JobField name in thing.Value)
                 {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Name</td>
-                        <td>@item.Employer</td>
-                        <td>@item.Location</td>
-                        <td>@item.PositionType</td>
-                        <td>@item.CoreCompetency</td>
-                    </tr>
+                    if (item.Employer == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="employer" asp-route-value="@item.Employer">@item.Employer</a></td>
+                    }
+                    else if (item.Location == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="location" asp-route-value="@item.Location">@item.Location</a></td>
+                    }
+                    else if (item.PositionType == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="positionType" asp-route-value="@item.PositionType">@item.PositionType</a></td>
+                    }
+                    else if (item.CoreCompetency == name)
+                    {
+                        <td><a asp-controller="List" asp-action="Jobs" asp-route-column="coreCompetency" asp-route-value="@item.CoreCompetency">@item.CoreCompetency</a></td>
+                    }
                 }
-            </table>
+            }
+        </tr>
+    }
+</table>
 
                  
         }
